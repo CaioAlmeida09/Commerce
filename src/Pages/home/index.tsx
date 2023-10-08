@@ -3,6 +3,7 @@ import { BsCartPlus } from "react-icons/bs";
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 
+// quando quiser rodar a api : json-server --watch db.json
 interface productsProps {
   id: number;
   title: string;
@@ -20,6 +21,10 @@ export function Home() {
     }
     getProducts();
   }, []);
+  function HandleAddCart(product: productsProps) {
+    console.log(product);
+  }
+
   return (
     <div className="flex items-center justify-start flex-col w-full h-16 px-10">
       <h1 className="font-bold mt-10 mb-7">Cardápio </h1>
@@ -44,7 +49,10 @@ export function Home() {
                   currency: "BRL",
                 })}{" "}
               </strong>
-              <button className="bg-zinc-900 p-1 rounded">
+              <button
+                className="bg-zinc-900 p-1 rounded"
+                onClick={() => HandleAddCart(product)}
+              >
                 <BsCartPlus size={22} />
               </button>
             </div>

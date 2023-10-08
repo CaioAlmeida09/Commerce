@@ -1,23 +1,4 @@
-import { api } from "../../services/api";
-import { useEffect, useState } from "react";
-
-interface productsProps {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  cover: string;
-}
 export function Cart() {
-  const [products, setProducts] = useState<productsProps[]>([]);
-
-  useEffect(() => {
-    async function getProducts() {
-      const response = await api.get("/products");
-      setProducts(response.data);
-    }
-    getProducts();
-  }, []);
   return (
     <div className="flex items-center justify-start flex-col w-full h-16 px-10">
       <h1 className="font-medium text-2x1 text-center my-4 mt-10">
