@@ -2,9 +2,11 @@ import "tailwindcss/tailwind.css";
 import { BsCartPlus } from "react-icons/bs";
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
+import { CartContext } from "../../contexts/CartContext";
+import { useContext } from "react";
 
 // quando quiser rodar a api : json-server --watch db.json
-interface productsProps {
+export interface productsProps {
   id: number;
   title: string;
   description: string;
@@ -14,6 +16,8 @@ interface productsProps {
 export function Home() {
   const [products, setProducts] = useState<productsProps[]>([]);
 
+  const { AddItemCart } = useContext(CartContext);
+
   useEffect(() => {
     async function getProducts() {
       const response = await api.get("/products");
@@ -21,13 +25,10 @@ export function Home() {
     }
     getProducts();
   }, []);
-  function HandleAddCart(product: productsProps) {
-    console.log(product);
-  }
 
   return (
     <div className="flex items-center justify-start flex-col w-full h-16 px-10">
-      <h1 className="font-bold mt-10 mb-7">Cardápio </h1>
+      <h1 className="font-bold mt-10 mb-7">Produtos em Alta </h1>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
         {products.map((product) => (
           <section key={product.id} className="w-full">
@@ -51,7 +52,7 @@ export function Home() {
               </strong>
               <button
                 className="bg-zinc-900 p-1 rounded"
-                onClick={() => HandleAddCart(product)}
+                onClick={() => AddItemCart(product)}
               >
                 <BsCartPlus size={22} />
               </button>
