@@ -4,6 +4,8 @@ interface CartContextData {
   cart: CartProps[];
   cartAmount: number;
   AddItemCart: (newItem: productsProps) => void;
+  RemoveItemCart: (itemDelete: CartProps) => void;
+  total: string;
 }
 
 interface CartProps {
@@ -14,6 +16,8 @@ interface CartProps {
   cover: string;
   amount: number;
   total: number;
+  result: number;
+  data: number;
 }
 interface CartProviderProps {
   children: ReactNode;
@@ -21,14 +25,18 @@ interface CartProviderProps {
 
 export const CartContext = createContext({} as CartContextData);
 function CartProvider({ children }: CartProviderProps) {
+  const [cart, setCart] = useState<CartProps[]>([]);
+  const [total, setTotal] = useState("");
+
   function AddItemCart(newItem: productsProps) {
     const IndexItem = cart.findIndex((item) => item.id === newItem.id);
     if (IndexItem !== -1) {
-      const cartList = cart;
+      const cartList = [...cart];
       cartList[IndexItem].amount = cartList[IndexItem].amount + 1;
       cartList[IndexItem].total =
         cartList[IndexItem].amount * cartList[IndexItem].price;
       setCart(cartList);
+      TotalResultCart(cartList);
       return;
     }
     const data = {
@@ -37,11 +45,46 @@ function CartProvider({ children }: CartProviderProps) {
       total: newItem.price,
     };
     setCart((products) => [...products, data]);
+    TotalResultCart([...cart, data]);
   }
-  const [cart, setCart] = useState<CartProps[]>([]);
+
+  function RemoveItemCart(product: CartProps) {
+    const indexItem = cart.findIndex((item) => item.id === product.id);
+    if (cart[indexItem]?.amount > 1) {
+      const CartList = cart;
+      CartList[indexItem].amount = CartList[indexItem].amount - 1;
+      CartList[indexItem].total =
+        CartList[indexItem].total - CartList[indexItem].price;
+      setCart(CartList);
+      TotalResultCart(CartList);
+      return;
+    }
+    const newList = cart.filter((item) => item.id !== product.id);
+    setCart(newList);
+    TotalResultCart(newList);
+  }
+
+  function TotalResultCart(itens: CartProps[]) {
+    const myCart = itens;
+    const resultCart = myCart.reduce((acc, obj) => {
+      return acc + obj.total;
+    }, 0);
+    const formatedResult = resultCart.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+    setTotal(formatedResult);
+  }
+
   return (
     <CartContext.Provider
-      value={{ cart, cartAmount: cart.length, AddItemCart }}
+      value={{
+        cart,
+        cartAmount: cart.length,
+        AddItemCart,
+        RemoveItemCart,
+        total,
+      }}
     >
       {children}
     </CartContext.Provider>
