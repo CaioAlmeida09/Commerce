@@ -1,5 +1,7 @@
 import { createContext, ReactNode, useState } from "react";
 import { productsProps } from "../Pages/home";
+import toast from "react-hot-toast";
+
 interface CartContextData {
   cart: CartProps[];
   cartAmount: number;
@@ -17,7 +19,6 @@ interface CartProps {
   amount: number;
   total: number;
   result: number;
-  data: number;
 }
 interface CartProviderProps {
   children: ReactNode;
@@ -30,6 +31,8 @@ function CartProvider({ children }: CartProviderProps) {
 
   function AddItemCart(newItem: productsProps) {
     const IndexItem = cart.findIndex((item) => item.id === newItem.id);
+    alert("Item adicionado ao carrinho");
+
     if (IndexItem !== -1) {
       const cartList = [...cart];
       cartList[IndexItem].amount = cartList[IndexItem].amount + 1;
@@ -37,6 +40,7 @@ function CartProvider({ children }: CartProviderProps) {
         cartList[IndexItem].amount * cartList[IndexItem].price;
       setCart(cartList);
       TotalResultCart(cartList);
+
       return;
     }
     const data = {
