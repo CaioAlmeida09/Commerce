@@ -4,6 +4,8 @@ import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { CartContext } from "../../contexts/CartContext";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 // quando quiser rodar a api : json-server --watch db.json
 export interface productsProps {
@@ -18,6 +20,10 @@ export function Home() {
 
   const { AddItemCart } = useContext(CartContext);
 
+  function HandleAddCart(product: productsProps) {
+    toast.success("Item adicionado ao Carrinho");
+    AddItemCart(product);
+  }
   useEffect(() => {
     async function getProducts() {
       const response = await api.get("/products");
@@ -32,11 +38,13 @@ export function Home() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
         {products.map((product) => (
           <section key={product.id} className="w-full">
-            <img
-              className="w-full max-h-50 mb-2"
-              src={product.cover}
-              alt={product.title}
-            />
+            <Link to={`product/${product.id}`}>
+              <img
+                className="w-full max-h-50 mb-2"
+                src={product.cover}
+                alt={product.title}
+              />
+            </Link>
             <p className="font-medium mt-2 mb-2 text-center">
               {" "}
               {product.title}
@@ -52,7 +60,7 @@ export function Home() {
               </strong>
               <button
                 className="bg-zinc-900 p-1 rounded"
-                onClick={() => AddItemCart(product)}
+                onClick={() => HandleAddCart(product)}
               >
                 <BsCartPlus size={22} />
               </button>

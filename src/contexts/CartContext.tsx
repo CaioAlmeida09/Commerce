@@ -10,7 +10,7 @@ interface CartContextData {
   total: string;
 }
 
-interface CartProps {
+export interface CartProps {
   id: number;
   title: string;
   description: string;
@@ -31,7 +31,6 @@ function CartProvider({ children }: CartProviderProps) {
 
   function AddItemCart(newItem: productsProps) {
     const IndexItem = cart.findIndex((item) => item.id === newItem.id);
-    alert("Item adicionado ao carrinho");
 
     if (IndexItem !== -1) {
       const cartList = [...cart];
@@ -53,6 +52,7 @@ function CartProvider({ children }: CartProviderProps) {
   }
 
   function RemoveItemCart(product: CartProps) {
+    toast.error(" 1 item retirado do carrinho");
     const indexItem = cart.findIndex((item) => item.id === product.id);
     if (cart[indexItem]?.amount > 1) {
       const CartList = cart;
@@ -63,6 +63,7 @@ function CartProvider({ children }: CartProviderProps) {
       TotalResultCart(CartList);
       return;
     }
+    toast.error("item deletado");
     const newList = cart.filter((item) => item.id !== product.id);
     setCart(newList);
     TotalResultCart(newList);
