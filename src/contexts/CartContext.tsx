@@ -18,7 +18,7 @@ export interface CartProps {
   cover: string;
   amount: number;
   total: number;
-  result: number;
+  result?: number;
 }
 interface CartProviderProps {
   children: ReactNode;
@@ -42,7 +42,7 @@ function CartProvider({ children }: CartProviderProps) {
 
       return;
     }
-    const data = {
+    const data: CartProps = {
       ...newItem,
       amount: 1,
       total: newItem.price,

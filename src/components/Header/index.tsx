@@ -10,7 +10,7 @@ export function Header() {
   return (
     <header className="flex items-center justify-between w-full h-16 px-10 bg-slate-200">
       <Link to="/" className="font-bold text-2xl">
-        Hora do Cafe
+        Produtos em Alta
       </Link>
       <Link className="relative" to="/cart">
         <FiShoppingCart color=" #121212" size={24} />
