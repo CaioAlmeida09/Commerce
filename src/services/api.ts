@@ -2,6 +2,5 @@ import axios from "axios";
 
 // quando quiser rodar a api : json-server --watch db.json
 export const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://back-zbkf-caioalmeida09.vercel.app/",
 });
-
