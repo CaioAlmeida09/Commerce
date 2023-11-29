@@ -26,8 +26,9 @@ export function Home() {
   }
   useEffect(() => {
     async function getProducts() {
-      const response = await api.get("/products");
+      const response = await api.get("/");
       setProducts(response.data);
+      console.log(response);
     }
     getProducts();
   }, []);
