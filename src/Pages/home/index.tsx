@@ -127,7 +127,7 @@ export function Home() {
                     })}{" "}
                   </strong>
                   <button
-                    className="bg-zinc-900 p-1 rounded"
+                    className="bg-zinc-500 p-1 rounded"
                     onClick={() => HandleAddCart(product)}
                   >
                     <BsCartPlus size={22} />
